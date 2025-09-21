@@ -1,6 +1,7 @@
 import { type FC, type ReactElement } from 'react'
 import { TasksCounter } from '@/components/TasksCounter/TasksCounter';
 import { TaskCard } from '@/components/TaskCard/TaskCard';
+import { TaskSideBar } from '@/components/TaskSideBar/TaskSideBar';
 
 export const Tasks: FC = (): ReactElement => {
   return (
@@ -31,8 +32,9 @@ export const Tasks: FC = (): ReactElement => {
           />
         </div>
       </section>
-      <section className='flex basis-1/3 bg-pink-300'>
-        create Task Section</section>
+      <section className='flex basis-1/3'>
+        <TaskSideBar />
+      </section>
     </section>
   );
 };
