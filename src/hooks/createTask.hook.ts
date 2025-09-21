@@ -3,7 +3,7 @@ import type { IResponse } from "@/types/response.interface";
 import type { ITask } from "@/types/task.interface";
 
 const createTask = async (task: ITask) => {
-  const response = await fetch('http://localhost:3001/tasks/create', {
+  const response = await fetch(`${import.meta.env.VITE_API_URL}/tasks/create`, {
     method: 'POST',
     headers: {
       'Content-type': 'application/json'
