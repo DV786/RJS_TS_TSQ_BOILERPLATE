@@ -6,3 +6,5 @@ export interface ITask {
   priority: 'low' | 'normal' | 'high';
   dueDate: string;
 };
+
+export type IUpdateTask = Partial<ITask> & { _id: string };
