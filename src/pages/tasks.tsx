@@ -1,5 +1,6 @@
 import { type FC, type ReactElement } from 'react'
 import { TasksCounter } from '@/components/TasksCounter/TasksCounter';
+import { TaskCard } from '@/components/TaskCard/TaskCard';
 
 export const Tasks: FC = (): ReactElement => {
   return (
@@ -9,11 +10,12 @@ export const Tasks: FC = (): ReactElement => {
           <h1 className='text-white font-bold text-2xl mb-8'>
             Task as on: Saturday, 1 Mar 2025
           </h1>
-          <div className='flex justify-around'>
+          <div className='flex justify-around mb-12'>
             <TasksCounter status='todo' count={12} />
             <TasksCounter status='inProgress' count={10} />
             <TasksCounter status='completed' count={8} />
           </div>
+          <TaskCard />
         </div>
       </section>
       <section className='flex basis-1/3 bg-pink-300'>
