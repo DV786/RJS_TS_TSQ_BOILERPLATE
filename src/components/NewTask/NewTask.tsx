@@ -1,4 +1,4 @@
-import { type FC, type ReactElement } from "react";
+import { useEffect, type FC, type ReactElement } from "react";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/select";
 import { format } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
-// import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import {
@@ -30,18 +29,32 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { CreateTaskSchema } from "@/schema/createTask.schema";
 import type z from "zod";
-
-
-
+import { useCreateTask } from "@/hooks/createTask.hook";
+import { Toaster } from "@/components/ui/sonner"
+import { toast } from "sonner"
 
 export const NewTask: FC = (): ReactElement => {
+  const { mutate, isSuccess } = useCreateTask();
+
   const form = useForm<z.infer<typeof CreateTaskSchema>>({
     resolver: zodResolver(CreateTaskSchema),
-  })
+    defaultValues: {
+      'priority': 'low',
+      'status': 'todo'
+    }
+  });
 
-  const onSubmit = (values: any) => {
-    console.log(values);
-  }
+  const onSubmit = (values: z.infer<typeof CreateTaskSchema>) => {
+    const dueDate = values.dueDate.toISOString();
+    mutate({ ...values, dueDate });
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast('New Task Created');
+    };
+    form.reset();
+  }, [isSuccess])
 
   return (
     <div>
@@ -164,7 +177,11 @@ export const NewTask: FC = (): ReactElement => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Textarea placeholder="Task Description" {...field} />
+                    <Textarea
+                      placeholder="Task Description"
+                      {...field}
+                      value={field.value ?? ''}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -176,6 +193,7 @@ export const NewTask: FC = (): ReactElement => {
           </div>
         </form>
       </Form>
+      <Toaster />
     </div>
   )
 }
